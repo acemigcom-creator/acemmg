@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Player</title>
-
-  <style>
+  <title>Video Player</title>  <style>
     body {
       margin: 0;
       background: #000;
@@ -25,18 +22,11 @@
       color: #fff;
       font-size: 14px;
     }
-  </style>
-</head>
-
-<body>
-
-  <p id="title"></p>
-
-  <video id="player" controls playsinline controlsList="nodownload"></video>
+  </style></head><body>  <p id="title"></p><video id="player" controls playsinline controlsList="nodownload"></video>
 
   <script>
     const JSON_URL = "videos.json";
-    const DIRECT_LINK = "https://auctionr.org/4/c15ba7ac23640f5b515ecf77cd38878f";
+    const DIRECT_LINK = "https://asiafilm.org/4/3ffb8ddeb2fb2e0d57d876b9d4925508";
 
     const video = document.getElementById("player");
     const title = document.getElementById("title");
@@ -48,7 +38,9 @@
       .then(res => res.json())
       .then(data => {
         const vids = data.videos;
-        const id = decodeURIComponent(location.hash.replace("#/", ""));
+
+        const params = new URLSearchParams(location.search);
+        const id = params.get("f");
 
         let selected = vids.find(v => v.id === id);
 
@@ -68,12 +60,10 @@
     }, { once: true });
 
     video.addEventListener("timeupdate", () => {
-      if (!redirected && video.currentTime >= 30) {
+      if (!redirected && video.currentTime >= 25) {
         redirected = true;
         window.location.href = DIRECT_LINK;
       }
     });
-  </script>
-
-</body>
+  </script></body>
 </html>
