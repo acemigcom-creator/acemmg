@@ -25,7 +25,7 @@
   </style></head><body>  <p id="title"></p><video id="player" controls playsinline controlsList="nodownload"></video>
 
   <script>
-    const JSON_URL = "videos.json";
+    const JSON_URL = "../videos.json";
     const DIRECT_LINK = "https://asiafilm.org/4/3ffb8ddeb2fb2e0d57d876b9d4925508";
 
     const video = document.getElementById("player");
@@ -33,22 +33,26 @@
 
     let redirected = false;
 
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("f");
+
     fetch(JSON_URL)
       .then(res => res.json())
       .then(data => {
         const vids = data.videos;
 
-        const params = new URLSearchParams(location.search);
-        const id = params.get("f");
-
-        let selected = vids.find(v => v.id === id);
+        const selected = vids.find(v => v.id === id);
 
         if (!selected) {
-          selected = vids[0];
+          title.innerText = "Video tidak ditemukan";
+          return;
         }
 
         video.src = selected.cdn;
         title.innerText = selected.id;
+      })
+      .catch(() => {
+        title.innerText = "Gagal memuat video";
       });
 
     video.addEventListener("timeupdate", () => {
